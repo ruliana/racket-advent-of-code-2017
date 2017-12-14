@@ -33,7 +33,7 @@
 (define south (axis 3))
 (define west (axis 1))
 
-; Given a number, what's its layer?
+; Given a number, which is its layer?
 ; It's the distance on my "polar"
 ; coordinates.
 (define (layer number)
