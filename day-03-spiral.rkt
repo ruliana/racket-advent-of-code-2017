@@ -1,5 +1,10 @@
 #lang racket
 
+; This program uses a "closed form" approach,
+; meaning it does not iterate to find the
+; solution, instead it uses a mathematical
+; formula to reach the same result.
+
 ; Simple x^2 for convenience
 (define (sqr x) (expt x 2))
 
