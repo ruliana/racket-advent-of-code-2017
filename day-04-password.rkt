@@ -1,12 +1,21 @@
 #lang racket
+(require threading)
+
+(define preprocess (make-parameter identity))
+
+(define (char-sort text)
+  (~> text
+      string->list
+      (sort char<?)
+      list->string))      
 
 (define (valid? text)
   (let loop ([tokens (string-split text)]
              [visited (set)])
     (match tokens
       ['() #t]
-      [(list head tail ...) #:when (set-member? visited head) #f]
-      [(list head tail ...) (loop tail (set-add visited head))])))
+      [(list head tail ...) #:when (set-member? visited ((preprocess) head)) #f]
+      [(list head tail ...) (loop tail (set-add visited ((preprocess) head)))])))
 
 (module+ test
   (require rackunit)
@@ -21,5 +30,9 @@
   (for/sum ([line (in-lines input)])
     (if (valid? line) 1 0)))
 
-(displayln
- (call-with-input-file "day-04-password.txt" count-valid #:mode 'text))
+(printf "Puzzle A: ~a\n"
+ (call-with-input-file "day-04-input.txt" count-valid #:mode 'text))
+
+(parameterize ([preprocess char-sort])
+  (printf "Puzzle B: ~a\n"
+   (call-with-input-file "day-04-input.txt" count-valid #:mode 'text)))
