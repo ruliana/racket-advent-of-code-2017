@@ -1,1 +1,5 @@
 #lang reader "day-08-register-reader.rkt"
+a inc 4
+a inc 1
+b inc -7
+b dec 3
