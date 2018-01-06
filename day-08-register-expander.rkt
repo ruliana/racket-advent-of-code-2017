@@ -19,20 +19,31 @@
     [(_ register command amount) #`(command 'register amount)]))
 
 (define memory (make-hash))
+(define biggest -inf.0)
 
 (define (qry register)
   (dict-ref memory register 0))
 
+(define (upd register value)
+  (dict-set! memory register value))
+
+(define (upd-biggest value)
+  (set! biggest (max biggest value)))
+
 (define (inc register amount)
-  (dict-update! memory register (λ (x) (+ x amount)) 0))
+  (let* ([old-value (qry register)]
+         [new-value (+ amount old-value)])
+    (upd register new-value)
+    (upd-biggest new-value)))
 
 (define (dec register amount)
-  (dict-update! memory register (λ (x) (- x amount)) 0))
+  (inc register (- amount)))
 
 (define (display-memory)
   (displayln memory))
 
 (define (display-max-value)
-  (printf "Max value in registers: ~a\n" (argmax identity (dict-values memory))))
+  (printf "Max value in registers: ~a\n" (argmax identity (dict-values memory)))
+  (printf "     Peak in registers: ~a\n" (inexact->exact biggest)))
 
 (define != (negate =))

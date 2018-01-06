@@ -3,7 +3,8 @@
 (module+ test
   (require rackunit))
 
-(provide make-tokenizer)
+(provide make-tokenizer
+         base-lexer)
 
 ; Convenience definitions
 (define-lex-abbrev integer (:: (:? "-") (:+ numeric)))
