@@ -37,7 +37,7 @@ The solution was reduced to a single number, it's whole part is the distance fro
 
 Basically, find similarities in a list of strings.
 
-The problem is simple, but it let me play with a few interesting techniques. First of all the ("macro threading")[https://docs.racket-lang.org/threading/index.html] borrowed from Clojure for function composition (thanks to Alexis King, again).
+The problem is simple, but it let me play with a few interesting techniques. First of all the ["macro threading"](https://docs.racket-lang.org/threading/index.html) borrowed from Clojure for function composition (thanks to Alexis King, again).
 
 Second, the "parameters" from Racket itself. It's a nice way to configure things without the global problem. There is a similar technique using "thread local" variables and "try/finally"/"begin/ensure" in Java and Ruby. I find the technique very useful, but underestimated.
 
@@ -73,6 +73,6 @@ I overengineered this big time! I used this challenge to experiment creating a f
 
 There are lots of files, but all them are really small. The thing starts in the "-reader.rkt" file, it uses a very simple lexer to generate tokens and a parser to generate an AST (Abstract Syntax Tree) from these tokens. Finally, the "expander" uses macros to transform the AST to simple Racket function calls and it's done.
 
-My feeling it that the hard parts are the "glue" between lexer, parser and expander, not the language building _per se_. I guess I could abstract it in a form of "convention over configuration" to make things easier, pretty much what the (["brag")[http://docs.racket-lang.org/brag/] (from Danny Yoo and Matthew Butterick) library does.
+My feeling it that the hard parts are the "glue" between lexer, parser and expander, not the language building _per se_. I guess I could abstract it in a form of "convention over configuration" to make things easier, pretty much what the ["brag"](http://docs.racket-lang.org/brag/) (from Danny Yoo and Matthew Butterick) library does.
 
-Thanks for the (Beautiful Racket)[https://beautifulracket.com/] from Matthew Butterick, it would be a rough journey without it.
+Thanks for the [Beautiful Racket](https://beautifulracket.com/) from Matthew Butterick, it would be a rough journey without it.
