@@ -17,7 +17,7 @@ There is a sequence of numbers and we need to find the sum of repeated ones at a
 
 Instead of trying to loop over the indexes, I used "in-cycle" to create a circular list (actually, a stream) and "sequence-tail" to displace it. Then a simple list comprehension with "for/sum" and ":#when" solves the problem.
 
-Note: The sequence and list functions of Racket are awesome, but they fall a little short on vectors and dictionaries (hashtables), the awesome ("collections")[https://docs.racket-lang.org/collections/index.html] library from Alexis King cover this beautifully. 
+Note: The sequence and list functions of Racket are awesome, but they fall a little short on vectors and dictionaries (hashtables), the awesome ["collections"](https://docs.racket-lang.org/collections/index.html) library from Alexis King cover this beautifully. 
 
 ### [Day 02](http://adventofcode.com/2017/day/2) - Corruption Checksum
 
