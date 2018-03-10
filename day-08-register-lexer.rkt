@@ -20,32 +20,21 @@
    [identifier (token 'IDENTIFIER (string->symbol lexeme))]))
 
 (module+ test
+  (define-match-expander tokens
+    (syntax-rules ()
+      [(_ (t v) ...) (list (srcloc-token (token-struct t v _ _ _ _ _) _) ...)]))
   (define (lex str)
     (apply-lexer base-lexer str))
   (check-equal? (lex "") empty)
-  (check-equal? (lex "123") (list (srcloc-token (token 'NUMBER 123)
-                                                (srcloc 'string #f #f 1 3))))
-  (check-equal? (lex "-321") (list (srcloc-token (token 'NUMBER -321)
-                                                 (srcloc 'string #f #f 1 4))))
-  (check-equal? (lex "ab") (list (srcloc-token (token 'IDENTIFIER 'ab)
-                                               (srcloc 'string #f #f 1 2))))
-  (check-equal? (lex "a+b") (list (srcloc-token (token 'IDENTIFIER 'a+b)
-                                                (srcloc 'string #f #f 1 3))))
-  (check-equal? (lex "ab -12 cd") (list (srcloc-token
-                                         (token-struct 'IDENTIFIER 'ab #f #f #f #f #f)
-                                         (srcloc 'string #f #f 1 2))
-                                        (srcloc-token
-                                         (token-struct 'SPACE #f #f #f #f #f #t)
-                                         (srcloc 'string #f #f 3 1))
-                                        (srcloc-token
-                                         (token-struct 'NUMBER -12 #f #f #f #f #f)
-                                         (srcloc 'string #f #f 4 3))
-                                        (srcloc-token
-                                         (token-struct 'SPACE #f #f #f #f #f #t)
-                                         (srcloc 'string #f #f 7 1))
-                                        (srcloc-token
-                                         (token-struct 'IDENTIFIER 'cd #f #f #f #f #f)
-                                         (srcloc 'string #f #f 8 2)))))
+  (check-match (lex "123") (tokens ('NUMBER 123)))
+  (check-match (lex "-321") (tokens ('NUMBER -321)))
+  (check-match (lex "ab") (tokens ('IDENTIFIER 'ab)))
+  (check-match (lex "a+b") (tokens ('IDENTIFIER 'a+b)))
+  (check-match (lex "ab -12 cd") (tokens ('IDENTIFIER 'ab)
+                                         ('SPACE #f)
+                                         ('NUMBER -12)
+                                         ('SPACE #f)
+                                         ('IDENTIFIER 'cd))))
 
 ; Boilerplate code (pretty much the same for other languages)
 (define (make-tokenizer input [path #f])
